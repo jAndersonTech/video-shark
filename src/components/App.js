@@ -1,18 +1,39 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
-import logo from '../resources/logo.svg';
-import '../css/App.css';
+import YTSearch from 'youtube-api-search';
+import SearchBar from './search_bar';
+import VideoList from './video_list';
+import VideoDetail from './video_detail';
+
+const API_KEY = 'AIzaSyBW7a1-4r-6dD1skw2G-n45KDOMqg0IrTs';
 
 class App extends Component {
+  
+  constructor(props) {
+    super(props)
+
+    this.state = { videos: [], selectedVideo: null };
+
+    this.videoSearch('vsauce');
+  }
+
+  videoSearch(term) {
+    YTSearch({key: API_KEY, term }, 
+      videos => { this.setState({ videos, selectedVideo: videos[0] }); }
+    );
+  }
+
   render() {
+
+    const videoSearch = _.debounce((term) => {this.videoSearch(term)}, 500);
+
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <SearchBar onSearchTermChange={videoSearch} />
+        <VideoDetail video={this.state.selectedVideo} />
+        <VideoList 
+          videos={this.state.videos}
+          onVideoSelect={ selectedVideo => this.setState({selectedVideo}) } />
       </div>
     );
   }
