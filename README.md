@@ -28,9 +28,11 @@ Otherwise you can build the program yourself by following these steps:
 
 1. Download the zip file from the Github repo or fork and clone the repo to your local directory either through Github or through git:
 
-`git clone https://github.com/<your-profile-name>/video-shark`
+  `git clone https://github.com/<your-profile-name>/video-shark`
 
 2. Install node and npm onto you computer and run the following commands:
 
-`npm install`
-`npm start`
+```
+npm install
+npm start
+```
